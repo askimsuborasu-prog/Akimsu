@@ -1,9 +1,9 @@
-      <!DOCTYPE html>
+       <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem: Bağlantı Kuruldu ❤️</title>
+    <title>Ebedi Bağlantı Kuruldu ❤️</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -36,23 +36,12 @@
         }
         #start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff3385; }
 
-        /* İnteraktif Zarf */
-        #envelope-wrapper { display: none; margin-top: 20px; perspective: 1000px; }
-        .envelope {
-            position: relative; width: 280px; height: 180px; background: #ff4d94; margin: 0 auto; border-radius: 0 0 10px 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.5s;
-        }
-        .envelope::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid #ff1a75; transform-origin: top; transition: transform 0.5s; z-index: 3;
-        }
-        .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
-        .envelope-text { position: absolute; bottom: 20px; width: 100%; text-align: center; color: white; font-weight: bold; font-size: 14px; z-index: 4; }
-
         /* Hacker Kart Yapısı */
         .card {
             display: none; background: rgba(15, 5, 25, 0.8); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 51, 133, 0.2); transform: scale(0.9); opacity: 0; transition: all 1s ease-in-out;
         }
         .card.active { display: block; transform: scale(1); opacity: 1; }
-        h1 { font-size: 28px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
+        h1 { font-size: 26px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
         /* Fotoğraf Alanı */
         .photo-frame {
@@ -89,14 +78,8 @@
 
         <div id="countdown" style="display: none;">3</div>
 
-        <div id="envelope-wrapper">
-            <div class="envelope" onclick="openEnvelope(this)">
-                <div class="envelope-text">SİSTEMDE YENİ BİR MESAJ VAR 💌<br>(Açmak İçin Dokun)</div>
-            </div>
-        </div>
-
         <div id="birthday-card" class="card">
-            <h1>SİSTEM: VERİ ERİŞİMİ BAŞARILI</h1>
+            <h1>EBEDİ BAĞLANTI KURULDU</h1>
             
             <div class="photo-frame">
                 <img src="fotograf1.jpg" alt="Sevgilim">
@@ -107,50 +90,42 @@
     </div>
 
     <script>
-        // Mektup İçeriği (İstediğin gibi güncellendi)
+        // Mektup İçeriği
         const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu dijital dünyadaki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
-        const envelopeWrapper = document.getElementById('envelope-wrapper');
         const cardEl = document.getElementById('birthday-card');
 
-        // Geri Sayımı Başlatan Fonksiyon
+        // Geri Sayımı Başlayan Fonksiyon
         function startSurprise() {
             document.getElementById('start-btn').style.display = 'none';
             countdownEl.style.display = 'block';
             music.play().catch(e => console.log("Müzik çalındı."));
             
             let count = 3;
+            countdownEl.innerText = count;
+
             const timer = setInterval(() => {
                 count--;
                 if (count > 0) {
                     countdownEl.innerText = count;
-                } else if (count === 0) {
-                    countdownEl.innerText = "BAĞLANILIYOR... ⚡";
                 } else {
                     clearInterval(timer);
-                    countdownEl.remove();
-                    envelopeWrapper.style.display = 'block'; // Direkt zarfı göster
+                    countdownEl.remove(); // Geri sayım bittiği an elementi yok et
+                    
+                    // Hiçbir ara yazı olmadan doğrudan ana içeriği ve mektubu getir
+                    cardEl.classList.add('active');
+                    typeWriter(loveLetter, 0); 
                 }
             }, 1000);
-        }
-
-        // Zarfı Açıp Kartı Gösteren Fonksiyon
-        function openEnvelope(envelope) {
-            envelope.classList.add('open');
-            setTimeout(() => {
-                envelopeWrapper.style.display = 'none';
-                cardEl.classList.add('active');
-                typeWriter(loveLetter, 0); // Yazı efekti başlasın
-            }, 1200);
         }
 
         // Hacker Tarzı Harf Harf Yazma Efekti
         function typeWriter(text, i) {
             if (i < text.length) {
                 document.getElementById("typewriter-text").innerHTML += text.charAt(i);
-                setTimeout(() => typeWriter(text, i + 1), 45); // Yazma hızı
+                setTimeout(() => typeWriter(text, i + 1), 45); 
             }
         }
 
@@ -192,4 +167,4 @@
     </script>
 </body>
 </html>
-  
+           
