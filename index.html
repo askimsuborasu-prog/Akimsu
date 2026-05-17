@@ -1,4 +1,4 @@
-       <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -90,8 +90,8 @@
     </div>
 
     <script>
-        // Mektup İçeriği
-        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu dijital dünyadaki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
+        // Mektup İçeriği (Güncellendi)
+        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
@@ -112,9 +112,9 @@
                     countdownEl.innerText = count;
                 } else {
                     clearInterval(timer);
-                    countdownEl.remove(); // Geri sayım bittiği an elementi yok et
+                    countdownEl.remove();
                     
-                    // Hiçbir ara yazı olmadan doğrudan ana içeriği ve mektubu getir
+                    // Geri sayım biter bitmez sıfır gecikmeyle ana ekranı açar
                     cardEl.classList.add('active');
                     typeWriter(loveLetter, 0); 
                 }
@@ -167,4 +167,3 @@
     </script>
 </body>
 </html>
-           
