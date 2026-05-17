@@ -44,29 +44,32 @@
         .envelope-icon { font-size: 70px; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 0 10px #ff3385); }
         .envelope-hint { font-size: 16px; font-weight: bold; letter-spacing: 1px; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.6); font-family: monospace; }
 
-        /* --- TAM SIĞAN COMPACT SİBER KART --- */
+        /* --- KUSURSUZ VE ORANTILI SİBER KART --- */
         .card {
-            display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 15px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.9) translateY(20px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
+            display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 15px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.9) translateY(15px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
         }
         .card.active { display: block; transform: scale(1) translateY(0); opacity: 1; }
         
         h1 { font-size: 18px; color: #ff3385; margin-bottom: 10px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
-        /* Dikey Fotoğraflar İçin Optimize Edilmiş Çerçeve */
+        /* Asla Bölünme Yapmayan Akıllı Fotoğraf Çerçevesi */
         .photo-frame {
-            width: 100%; height: 180px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.5); box-shadow: 0 0 15px rgba(255, 51, 133, 0.3); margin-bottom: 10px; background: #000;
+            width: 100%; height: 200px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.4); box-shadow: 0 0 15px rgba(255, 51, 133, 0.2); margin-bottom: 10px; background: rgba(20, 8, 30, 0.6); display: flex; justify-content: center; align-items: center;
         }
-        .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-frame img { width: 100%; height: 100%; object-fit: contain; }
 
         /* CANLI AŞK SAYAÇ ALANI */
         .love-counter {
             background: rgba(255, 51, 133, 0.1); border: 1px solid rgba(255, 51, 133, 0.3); border-radius: 10px; padding: 6px; font-family: monospace; font-size: 12px; color: #ff3385; text-shadow: 0 0 5px rgba(255, 51, 133, 0.5); margin-bottom: 10px; font-weight: bold;
         }
 
-        /* Optimize Edilmiş Yazı Kutusu */
+        /* Sabit Yükseklik ve İçten Akışlı Yazı Kutusu */
         .message-box {
-            font-size: 13px; line-height: 1.4; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 120px; max-height: 150px; overflow-y: auto; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 10px;
+            font-size: 13px; line-height: 1.5; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; height: 140px; overflow-y: auto; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 10px;
         }
+        /* Kaydırma çubuğunu şık ve ince yapalım */
+        .message-box::-webkit-scrollbar { width: 4px; }
+        .message-box::-webkit-scrollbar-thumb { background: #ff3385; border-radius: 10px; }
 
         /* Rezervasyon Durumu */
         .status-box {
@@ -160,7 +163,10 @@
 
         function typeWriter(text, i) {
             if (i < text.length) {
-                document.getElementById("typewriter-text").innerHTML += text.charAt(i);
+                const box = document.getElementById("typewriter-text");
+                box.innerHTML += text.charAt(i);
+                // Yazı yazılırken kutunun otomatik olarak aşağı kaymasını sağlar
+                box.scrollTop = box.scrollHeight;
                 setTimeout(() => typeWriter(text, i + 1), 45); 
             }
         }
