@@ -22,14 +22,14 @@
         #matrix-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15;
         }
-        /* Ekranı Tam Ortalamayı Sağlayan Konteyner */
+        /* Tam Merkezleme Sağlayan Konteyner */
         .container {
             position: relative; 
             z-index: 10; 
             text-align: center; 
-            padding: 10px; 
+            padding: 12px; 
             width: 100%; 
-            max-width: 400px;
+            max-width: 390px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -54,35 +54,48 @@
         .envelope-icon { font-size: 70px; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 0 10px #ff3385); }
         .envelope-hint { font-size: 16px; font-weight: bold; letter-spacing: 1px; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.6); font-family: monospace; }
 
-        /* --- TAM ORTALI VE KORUNAKLI SİBER KART --- */
+        /* --- TAM EKRAN UYUMLU SİBER KART --- */
         .card {
-            display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 15px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.9); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
+            display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 15px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.95); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
         }
         .card.active { display: block; transform: scale(1); opacity: 1; }
         
-        h1 { font-size: 18px; color: #ff3385; margin-bottom: 10px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
+        h1 { font-size: 18px; color: #ff3385; margin-bottom: 12px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
-        /* Fotoğraf Çerçevesi */
+        /* Yüzleri Kırpmayan Akıllı Fotoğraf Alanı */
         .photo-frame {
-            width: 100%; height: 200px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.4); box-shadow: 0 0 15px rgba(255, 51, 133, 0.2); margin-bottom: 10px; background: rgba(20, 8, 30, 0.6); display: flex; justify-content: center; align-items: center;
+            width: 100%; 
+            height: 240px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            border: 1px solid rgba(255, 51, 133, 0.4); 
+            box-shadow: 0 0 15px rgba(255, 51, 133, 0.2); 
+            margin-bottom: 12px; 
+            background: #000;
         }
-        .photo-frame img { width: 100%; height: 100%; object-fit: contain; }
+        /* Dikey fotoğrafta yüzleri ortalamak için pozisyon ayarlandı */
+        .photo-frame img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            object-position: center 20%; 
+        }
 
         /* CANLI AŞK SAYAÇ ALANI */
         .love-counter {
-            background: rgba(255, 51, 133, 0.1); border: 1px solid rgba(255, 51, 133, 0.3); border-radius: 10px; padding: 6px; font-family: monospace; font-size: 12px; color: #ff3385; text-shadow: 0 0 5px rgba(255, 51, 133, 0.5); margin-bottom: 10px; font-weight: bold;
+            background: rgba(255, 51, 133, 0.1); border: 1px solid rgba(255, 51, 133, 0.3); border-radius: 10px; padding: 8px; font-family: monospace; font-size: 12px; color: #ff3385; text-shadow: 0 0 5px rgba(255, 51, 133, 0.5); margin-bottom: 12px; font-weight: bold; line-height: 1.4;
         }
 
-        /* Yazı Kutusu */
+        /* Canlı Akışlı ve Sabit Yükseklikli Yazı Kutusu */
         .message-box {
-            font-size: 13px; line-height: 1.5; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; height: 140px; overflow-y: auto; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 10px;
+            font-size: 13px; line-height: 1.5; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; height: 130px; overflow-y: auto; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 12px;
         }
         .message-box::-webkit-scrollbar { width: 4px; }
         .message-box::-webkit-scrollbar-thumb { background: #ff3385; border-radius: 10px; }
 
         /* Rezervasyon Durumu */
         .status-box {
-            font-family: monospace; font-size: 11px; color: #ae20dd; text-shadow: 0 0 8px #ae20dd; font-weight: bold; letter-spacing: 1px; border-top: 1px dashed rgba(174, 32, 221, 0.4); padding-top: 8px;
+            font-family: monospace; font-size: 11px; color: #ae20dd; text-shadow: 0 0 8px #ae20dd; font-weight: bold; letter-spacing: 1px; border-top: 1px dashed rgba(174, 32, 221, 0.4); padding-top: 10px;
         }
 
         /* Dokunmatik Kalp Efekti */
@@ -170,11 +183,15 @@
             setInterval(updateLoveCounter, 1000);
         }
 
+        // Akıllı Yazı Yazma Fonksiyonu - Otomatik Aşağı Kaydırır
         function typeWriter(text, i) {
             if (i < text.length) {
                 const box = document.getElementById("typewriter-text");
                 box.innerHTML += text.charAt(i);
+                
+                // Her harf eklendiğinde kutuyu otomatik olarak en alta odaklar
                 box.scrollTop = box.scrollHeight;
+                
                 setTimeout(() => typeWriter(text, i + 1), 45); 
             }
         }
