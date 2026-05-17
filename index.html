@@ -20,7 +20,7 @@
         }
         /* Matrix Dijital Yağmur */
         #matrix-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.12;
         }
         .container {
             position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; max-width: 500px;
@@ -36,20 +36,33 @@
         }
         #start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff3385; }
 
-        /* Ana Kart Yapısı */
+        /* --- İNTERAKTİF NEON ZARF TASARIMI --- */
+        #envelope-wrapper {
+            display: none; margin-top: 20px; position: relative; z-index: 20; perspective: 1000px; opacity: 0; transition: opacity 1s ease;
+        }
+        #envelope-wrapper.show { display: block; opacity: 1; }
+
+        .envelope {
+            position: relative; width: 280px; height: 180px; background: rgba(255, 51, 133, 0.1); border-radius: 0 0 10px 10px; box-shadow: 0 0 25px rgba(255, 51, 133, 0.3); cursor: pointer; transition: transform 0.5s; border: 2px solid #ff3385; margin: 0 auto;
+        }
+        .envelope:hover { transform: translateY(-5px); box-shadow: 0 0 35px rgba(255, 51, 133, 0.5); }
+
+        /* Zarfın Kapağı (Üçgen Üst Kısım) */
+        .envelope::before {
+            content: ''; position: absolute; top: -2px; left: -2px; width: calc(100% + 4px); height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid #ff1a75; transform-origin: top; transition: transform 0.5s; z-index: 3; filter: drop-shadow(0 0 5px #ff1a75);
+        }
+        /* Zarf Açıldığında Kapak Animasyonu */
+        .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
+
+        .envelope-text { position: absolute; bottom: 25px; width: 100%; text-align: center; color: white; font-weight: bold; font-size: 14px; z-index: 4; text-shadow: 0 0 5px #fff; }
+
+        /* --- AÇILAN ANA KART YAPISI --- */
         .card {
-            display: none; background: rgba(15, 5, 25, 0.8); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 51, 133, 0.2); transform: scale(0.9); opacity: 0; transition: all 1s ease-in-out;
+            display: none; background: rgba(15, 5, 25, 0.8); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 51, 133, 0.2); transform: scale(0.8) translateY(100px); opacity: 0; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card.active { display: block; transform: scale(1); opacity: 1; }
-
-        /* Tıklanınca Açılacak Gizli Alanlar (Başta Gizli) */
-        .secret-content {
-            display: none; opacity: 0; transition: opacity 1s ease-in-out;
-        }
-        .secret-content.show {
-            display: block; opacity: 1;
-        }
-
+        /* Zarf açıldıktan sonra kartın gelmesini sağlayan sınıf */
+        .card.active { display: block; transform: scale(1) translateY(0); opacity: 1; }
+        
         h1 { font-size: 26px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
         /* Fotoğraf Alanı */
@@ -60,7 +73,7 @@
 
         /* Klavye Efektli Mektup Alanı */
         .message-box {
-            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); cursor: pointer;
+            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         /* Dokunmatik Kalp Efekti */
@@ -87,29 +100,31 @@
 
         <div id="countdown" style="display: none;">3</div>
 
+        <div id="envelope-wrapper">
+            <div class="envelope" onclick="openEnvelope(this)">
+                <div class="envelope-text">Sistemde Yeni Bir Mesaj Var 💌<br>(Dokun ve Aç)</div>
+            </div>
+        </div>
+
         <div id="birthday-card" class="card">
+            <h1>EBEDİ BAĞLANTI KURULDU</h1>
             
-            <div id="secret-area" class="secret-content">
-                <h1>EBEDİ BAĞLANTI KURULDU</h1>
-                <div class="photo-frame">
-                    <img src="fotograf1.jpg" alt="Sevgilim">
-                </div>
+            <div class="photo-frame">
+                <img src="fotograf1.jpg" alt="Sevgilim">
             </div>
 
-            <div class="message-box" id="typewriter-text" onclick="revealSurprise(event)"></div>
+            <div class="message-box" id="typewriter-text"></div>
         </div>
     </div>
 
     <script>
         // Mektup İçeriği
-        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum... [Devamını görmek için bu yazıya tıkla]";
+        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
+        const envelopeWrapper = document.getElementById('envelope-wrapper');
         const cardEl = document.getElementById('birthday-card');
-        const secretArea = document.getElementById('secret-area');
-
-        let isRevealed = false;
 
         // Geri Sayımı Başlatan Fonksiyon
         function startSurprise() {
@@ -128,11 +143,21 @@
                     clearInterval(timer);
                     countdownEl.remove();
                     
-                    // Geri sayım biter bitmez sadece mektup kartını açar
-                    cardEl.classList.add('active');
-                    typeWriter(loveLetter, 0); 
+                    // Geri sayım biter bitmez ara yazı olmadan neon zarfı gösterir
+                    envelopeWrapper.classList.add('show');
                 }
             }, 1000);
+        }
+
+        // Zarfı Açıp Ana Kartı Süzülerek Getiren Fonksiyon
+        function openEnvelope(envelope) {
+            envelope.classList.add('open');
+            // Zarf açıldıktan 1.2 saniye sonra ana içerik kartı aktif edilir
+            setTimeout(() => {
+                envelopeWrapper.style.display = 'none'; // Zarfı tamamen gizle
+                cardEl.classList.add('active'); // Ana kartı getir
+                typeWriter(loveLetter, 0); // Mektup yazma efektini başlat
+            }, 1200);
         }
 
         // Harf Harf Yazma Efekti
@@ -140,20 +165,6 @@
             if (i < text.length) {
                 document.getElementById("typewriter-text").innerHTML += text.charAt(i);
                 setTimeout(() => typeWriter(text, i + 1), 45); 
-            }
-        }
-
-        // Mektuba Tıklayınca Resim ve Yazıları Gösteren Fonksiyon
-        function revealSurprise(e) {
-            // Tıklama olayının tüm sayfayı etkileyip kalbi bozmasını engellemek için
-            e.stopPropagation(); 
-            
-            if (!isRevealed) {
-                secretArea.classList.add('show');
-                // Sondaki [Devamını görmek için...] ipucunu kaldırıp temiz bir bitiş yapalım
-                let currentText = document.getElementById("typewriter-text").innerHTML;
-                document.getElementById("typewriter-text").innerHTML = currentText.replace("[Devamını görmek için bu yazıya tıkla]", "");
-                isRevealed = true;
             }
         }
 
