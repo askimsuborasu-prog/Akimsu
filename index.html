@@ -36,11 +36,20 @@
         }
         #start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff3385; }
 
-        /* Hacker Kart Yapısı */
+        /* Ana Kart Yapısı */
         .card {
             display: none; background: rgba(15, 5, 25, 0.8); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 51, 133, 0.2); transform: scale(0.9); opacity: 0; transition: all 1s ease-in-out;
         }
         .card.active { display: block; transform: scale(1); opacity: 1; }
+
+        /* Tıklanınca Açılacak Gizli Alanlar (Başta Gizli) */
+        .secret-content {
+            display: none; opacity: 0; transition: opacity 1s ease-in-out;
+        }
+        .secret-content.show {
+            display: block; opacity: 1;
+        }
+
         h1 { font-size: 26px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
         /* Fotoğraf Alanı */
@@ -51,7 +60,7 @@
 
         /* Klavye Efektli Mektup Alanı */
         .message-box {
-            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); cursor: pointer;
         }
 
         /* Dokunmatik Kalp Efekti */
@@ -79,25 +88,30 @@
         <div id="countdown" style="display: none;">3</div>
 
         <div id="birthday-card" class="card">
-            <h1>EBEDİ BAĞLANTI KURULDU</h1>
             
-            <div class="photo-frame">
-                <img src="fotograf1.jpg" alt="Sevgilim">
+            <div id="secret-area" class="secret-content">
+                <h1>EBEDİ BAĞLANTI KURULDU</h1>
+                <div class="photo-frame">
+                    <img src="fotograf1.jpg" alt="Sevgilim">
+                </div>
             </div>
 
-            <div class="message-box" id="typewriter-text"></div>
+            <div class="message-box" id="typewriter-text" onclick="revealSurprise(event)"></div>
         </div>
     </div>
 
     <script>
-        // Mektup İçeriği (Güncellendi)
-        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
+        // Mektup İçeriği
+        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum... [Devamını görmek için bu yazıya tıkla]";
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
         const cardEl = document.getElementById('birthday-card');
+        const secretArea = document.getElementById('secret-area');
 
-        // Geri Sayımı Başlayan Fonksiyon
+        let isRevealed = false;
+
+        // Geri Sayımı Başlatan Fonksiyon
         function startSurprise() {
             document.getElementById('start-btn').style.display = 'none';
             countdownEl.style.display = 'block';
@@ -114,18 +128,32 @@
                     clearInterval(timer);
                     countdownEl.remove();
                     
-                    // Geri sayım biter bitmez sıfır gecikmeyle ana ekranı açar
+                    // Geri sayım biter bitmez sadece mektup kartını açar
                     cardEl.classList.add('active');
                     typeWriter(loveLetter, 0); 
                 }
             }, 1000);
         }
 
-        // Hacker Tarzı Harf Harf Yazma Efekti
+        // Harf Harf Yazma Efekti
         function typeWriter(text, i) {
             if (i < text.length) {
                 document.getElementById("typewriter-text").innerHTML += text.charAt(i);
                 setTimeout(() => typeWriter(text, i + 1), 45); 
+            }
+        }
+
+        // Mektuba Tıklayınca Resim ve Yazıları Gösteren Fonksiyon
+        function revealSurprise(e) {
+            // Tıklama olayının tüm sayfayı etkileyip kalbi bozmasını engellemek için
+            e.stopPropagation(); 
+            
+            if (!isRevealed) {
+                secretArea.classList.add('show');
+                // Sondaki [Devamını görmek için...] ipucunu kaldırıp temiz bir bitiş yapalım
+                let currentText = document.getElementById("typewriter-text").innerHTML;
+                document.getElementById("typewriter-text").innerHTML = currentText.replace("[Devamını görmek için bu yazıya tıkla]", "");
+                isRevealed = true;
             }
         }
 
