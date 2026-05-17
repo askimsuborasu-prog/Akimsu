@@ -14,66 +14,53 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             background-image: radial-gradient(circle, #250b3a 0%, #0d0213 100%);
             position: relative;
         }
-        /* Matrix Dijital Yağmur */
+        /* Matrix Arka Plan */
         #matrix-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.12;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.15;
         }
         .container {
-            position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; max-width: 500px;
+            position: relative; z-index: 10; text-align: center; padding: 20px; width: 100%; max-width: 450px;
         }
         
         /* Geri Sayım */
         #countdown {
-            font-size: 100px; font-weight: bold; color: #ff3385; text-shadow: 0 0 20px #ff3385; animation: pulse 1s infinite;
+            font-size: 90px; font-weight: bold; color: #ff3385; text-shadow: 0 0 20px #ff3385; animation: pulse 1s infinite;
         }
-        /* Giriş Butonu */
+        /* Başlatma Butonu */
         #start-btn {
-            background: linear-gradient(45deg, #ff3385, #ae20dd); color: white; border: none; padding: 15px 35px; font-size: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 0 20px rgba(255, 51, 133, 0.5); transition: all 0.3s;
+            background: linear-gradient(45deg, #ff3385, #ae20dd); color: white; border: none; padding: 16px 40px; font-size: 18px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 0 20px rgba(255, 51, 133, 0.5); transition: all 0.3s;
         }
         #start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff3385; }
 
-        /* --- İNTERAKTİF NEON ZARF TASARIMI --- */
-        #envelope-wrapper {
-            display: none; margin-top: 20px; position: relative; z-index: 20; perspective: 1000px; opacity: 0; transition: opacity 1s ease;
+        /* --- KUSURSUZ DİJİTAL MEKTUP ALANI --- */
+        #envelope-area {
+            display: none; background: rgba(15, 5, 25, 0.8); border-radius: 20px; padding: 35px 20px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.2); border: 2px dashed #ff3385; cursor: pointer; transition: all 0.5s ease; animation: pulse 2s infinite;
         }
-        #envelope-wrapper.show { display: block; opacity: 1; }
+        #envelope-area:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(255, 51, 133, 0.5); }
+        .envelope-icon { font-size: 70px; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 0 10px #ff3385); }
+        .envelope-hint { font-size: 16px; font-weight: bold; letter-spacing: 1px; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.6); font-family: monospace; }
 
-        .envelope {
-            position: relative; width: 280px; height: 180px; background: rgba(255, 51, 133, 0.1); border-radius: 0 0 10px 10px; box-shadow: 0 0 25px rgba(255, 51, 133, 0.3); cursor: pointer; transition: transform 0.5s; border: 2px solid #ff3385; margin: 0 auto;
-        }
-        .envelope:hover { transform: translateY(-5px); box-shadow: 0 0 35px rgba(255, 51, 133, 0.5); }
-
-        /* Zarfın Kapağı (Üçgen Üst Kısım) */
-        .envelope::before {
-            content: ''; position: absolute; top: -2px; left: -2px; width: calc(100% + 4px); height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid #ff1a75; transform-origin: top; transition: transform 0.5s; z-index: 3; filter: drop-shadow(0 0 5px #ff1a75);
-        }
-        /* Zarf Açıldığında Kapak Animasyonu */
-        .envelope.open::before { transform: rotateX(180deg); z-index: 1; }
-
-        .envelope-text { position: absolute; bottom: 25px; width: 100%; text-align: center; color: white; font-weight: bold; font-size: 14px; z-index: 4; text-shadow: 0 0 5px #fff; }
-
-        /* --- AÇILAN ANA KART YAPISI --- */
+        /* --- AÇILAN KUSURSUZ SİBER KART --- */
         .card {
-            display: none; background: rgba(15, 5, 25, 0.8); border-radius: 25px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 1px solid rgba(255, 51, 133, 0.2); transform: scale(0.8) translateY(100px); opacity: 0; transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.9) translateY(50px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
         }
-        /* Zarf açıldıktan sonra kartın gelmesini sağlayan sınıf */
         .card.active { display: block; transform: scale(1) translateY(0); opacity: 1; }
         
-        h1 { font-size: 26px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
+        h1 { font-size: 24px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
-        /* Fotoğraf Alanı */
+        /* Fotoğraf Çerçevesi */
         .photo-frame {
-            width: 100%; height: 300px; border-radius: 15px; overflow: hidden; border: 2px solid #ff3385; box-shadow: 0 0 15px rgba(255, 51, 133, 0.4); margin-bottom: 20px;
+            width: 100%; height: 280px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.5); box-shadow: 0 0 15px rgba(255, 51, 133, 0.3); margin-bottom: 20px;
         }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Klavye Efektli Mektup Alanı */
+        /* Yazı Alanı */
         .message-box {
-            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 120px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
 
         /* Dokunmatik Kalp Efekti */
@@ -100,10 +87,9 @@
 
         <div id="countdown" style="display: none;">3</div>
 
-        <div id="envelope-wrapper">
-            <div class="envelope" onclick="openEnvelope(this)">
-                <div class="envelope-text">Sistemde Yeni Bir Mesaj Var 💌<br>(Dokun ve Aç)</div>
-            </div>
+        <div id="envelope-area" onclick="openLetter()">
+            <div class="envelope-icon">✉️</div>
+            <div class="envelope-hint">Sistemde Yeni Bir Mesaj Var 💌<br><span style="font-size:12px; color:#ff3385;">(Açmak İçin Dokun)</span></div>
         </div>
 
         <div id="birthday-card" class="card">
@@ -118,15 +104,13 @@
     </div>
 
     <script>
-        // Mektup İçeriği
         const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
-        const envelopeWrapper = document.getElementById('envelope-wrapper');
+        const envelopeArea = document.getElementById('envelope-area');
         const cardEl = document.getElementById('birthday-card');
 
-        // Geri Sayımı Başlatan Fonksiyon
         function startSurprise() {
             document.getElementById('start-btn').style.display = 'none';
             countdownEl.style.display = 'block';
@@ -143,24 +127,19 @@
                     clearInterval(timer);
                     countdownEl.remove();
                     
-                    // Geri sayım biter bitmez ara yazı olmadan neon zarfı gösterir
-                    envelopeWrapper.classList.add('show');
+                    // Geri sayım biter bitmez tertemiz dijital mektup butonunu gösterir
+                    envelopeArea.style.display = 'block';
                 }
             }, 1000);
         }
 
-        // Zarfı Açıp Ana Kartı Süzülerek Getiren Fonksiyon
-        function openEnvelope(envelope) {
-            envelope.classList.add('open');
-            // Zarf açıldıktan 1.2 saniye sonra ana içerik kartı aktif edilir
-            setTimeout(() => {
-                envelopeWrapper.style.display = 'none'; // Zarfı tamamen gizle
-                cardEl.classList.add('active'); // Ana kartı getir
-                typeWriter(loveLetter, 0); // Mektup yazma efektini başlat
-            }, 1200);
+        // Mektup Görseline Tıklayınca Çalışacak Fonksiyon
+        function openLetter() {
+            envelopeArea.style.display = 'none'; // Mektup görselini kaldır
+            cardEl.classList.add('active'); // Fotoğraf ve yazıları getir
+            typeWriter(loveLetter, 0); // Yazıyı harf harf başlat
         }
 
-        // Harf Harf Yazma Efekti
         function typeWriter(text, i) {
             if (i < text.length) {
                 document.getElementById("typewriter-text").innerHTML += text.charAt(i);
@@ -168,7 +147,6 @@
             }
         }
 
-        // Ekrana Dokununca Çıkan Kalp Efekti
         function spawnHeart(e) {
             const heart = document.createElement("div");
             heart.className = "click-heart";
@@ -179,7 +157,7 @@
             setTimeout(() => heart.remove(), 800);
         }
 
-        // Matrix Yağmuru Kodları
+        // Matrix Efekti
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
