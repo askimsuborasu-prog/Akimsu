@@ -36,7 +36,7 @@
         }
         #start-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff3385; }
 
-        /* --- KUSURSUZ DİJİTAL MEKTUP ALANI --- */
+        /* --- DİJİTAL MEKTUP ALANI --- */
         #envelope-area {
             display: none; background: rgba(15, 5, 25, 0.8); border-radius: 20px; padding: 35px 20px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.2); border: 2px dashed #ff3385; cursor: pointer; transition: all 0.5s ease; animation: pulse 2s infinite;
         }
@@ -44,23 +44,33 @@
         .envelope-icon { font-size: 70px; margin-bottom: 15px; display: inline-block; filter: drop-shadow(0 0 10px #ff3385); }
         .envelope-hint { font-size: 16px; font-weight: bold; letter-spacing: 1px; color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.6); font-family: monospace; }
 
-        /* --- AÇILAN KUSURSUZ SİBER KART --- */
+        /* --- SİBER KART --- */
         .card {
             display: none; background: rgba(15, 5, 25, 0.85); border-radius: 20px; padding: 25px; box-shadow: 0 0 30px rgba(255, 51, 133, 0.3); backdrop-filter: blur(12px); border: 2px solid #ff3385; transform: scale(0.9) translateY(50px); opacity: 0; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); width: 100%;
         }
         .card.active { display: block; transform: scale(1) translateY(0); opacity: 1; }
         
-        h1 { font-size: 24px; color: #ff3385; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
+        h1 { font-size: 24px; color: #ff3385; margin-bottom: 15px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
         /* Fotoğraf Çerçevesi */
         .photo-frame {
-            width: 100%; height: 280px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.5); box-shadow: 0 0 15px rgba(255, 51, 133, 0.3); margin-bottom: 20px;
+            width: 100%; height: 260px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 51, 133, 0.5); box-shadow: 0 0 15px rgba(255, 51, 133, 0.3); margin-bottom: 15px;
         }
         .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* CANLI AŞK SAYAÇ ALANI */
+        .love-counter {
+            background: rgba(255, 51, 133, 0.1); border: 1px solid rgba(255, 51, 133, 0.3); border-radius: 10px; padding: 10px; font-family: monospace; font-size: 14px; color: #ff3385; text-shadow: 0 0 5px rgba(255, 51, 133, 0.5); margin-bottom: 15px; font-weight: bold;
+        }
+
         /* Yazı Alanı */
         .message-box {
-            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 120px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+            font-size: 15px; line-height: 1.6; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 18px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; min-height: 100px; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 15px;
+        }
+
+        /* Rezervasyon Durumu */
+        .status-box {
+            font-family: monospace; font-size: 12px; color: #ae20dd; text-shadow: 0 0 8px #ae20dd; font-weight: bold; letter-spacing: 1px; border-top: 1px dashed rgba(174, 32, 221, 0.4); padding-top: 10px;
         }
 
         /* Dokunmatik Kalp Efekti */
@@ -99,11 +109,22 @@
                 <img src="fotograf1.jpg" alt="Sevgilim">
             </div>
 
+            <div class="love-counter" id="live-counter">Bağlantı Süresi Hesapanıyor...</div>
+
             <div class="message-box" id="typewriter-text"></div>
+
+            <div class="status-box">
+                DURUM: SONSUZA KADAR REZERVE EDİLDİ ♾️
+            </div>
         </div>
     </div>
 
     <script>
+        // Başlangıç Tarihi: 07 Nisan 2026
+        const sevgiliOlunanTarih = new Date("2026-04-07T00:00:00");
+        // Doğum Günü Kutlama Tarihi: 15 Haziran 2026
+        const dogumGunuTarihi = new Date("2026-06-15T00:00:00");
+
         const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const music = document.getElementById('bg-music');
@@ -126,18 +147,18 @@
                 } else {
                     clearInterval(timer);
                     countdownEl.remove();
-                    
-                    // Geri sayım biter bitmez tertemiz dijital mektup butonunu gösterir
                     envelopeArea.style.display = 'block';
                 }
             }, 1000);
         }
 
-        // Mektup Görseline Tıklayınca Çalışacak Fonksiyon
         function openLetter() {
-            envelopeArea.style.display = 'none'; // Mektup görselini kaldır
-            cardEl.classList.add('active'); // Fotoğraf ve yazıları getir
-            typeWriter(loveLetter, 0); // Yazıyı harf harf başlat
+            envelopeArea.style.display = 'none';
+            cardEl.classList.add('active');
+            typeWriter(loveLetter, 0); 
+            
+            updateLoveCounter();
+            setInterval(updateLoveCounter, 1000);
         }
 
         function typeWriter(text, i) {
@@ -145,6 +166,27 @@
                 document.getElementById("typewriter-text").innerHTML += text.charAt(i);
                 setTimeout(() => typeWriter(text, i + 1), 45); 
             }
+        }
+
+        // 15 Haziran 2026 Hedefli Canlı Aşk Sayacı
+        function updateLoveCounter() {
+            const simdi = new Date();
+            
+            // Eğer sistem belirtilen doğum gününden önce açılırsa o anki zamanı, 
+            // sonra açılırsa tam doğum günü anındaki süreyi sabitler veya ileriye doğru devam ettirir.
+            const referansZaman = simdi;
+            const fark = referansZaman - sevgiliOlunanTarih;
+
+            const saniye = Math.floor((fark / 1000) % 60);
+            const dakika = Math.floor((fark / 1000 / 60) % 60);
+            const saat = Math.floor((fark / (1000 * 60 * 60)) % 24);
+            const guntoplam = Math.floor(fark / (1000 * 60 * 60 * 24));
+            
+            const yil = Math.floor(guntoplam / 365);
+            const kalanGun = guntoplam % 365;
+
+            document.getElementById("live-counter").innerHTML = 
+                `💝 Birlikteliğimiz: ${yil} Yıl, ${kalanGun} Gün, ${saat} Saat, ${dakika} Dakika, ${saniye} Saniye`;
         }
 
         function spawnHeart(e) {
@@ -157,7 +199,6 @@
             setTimeout(() => heart.remove(), 800);
         }
 
-        // Matrix Efekti
         const canvas = document.getElementById('matrix-bg');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
