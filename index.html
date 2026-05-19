@@ -62,7 +62,7 @@
         
         h1 { font-size: 18px; color: #ff3385; margin-bottom: 12px; text-shadow: 0 0 15px rgba(255, 51, 133, 0.6); letter-spacing: 2px; font-family: monospace; }
 
-        /* Yüzleri Kırpmayan Akıllı Fotoğraf Alanı */
+        /* İnteraktif Fotoğraf Alanı */
         .photo-frame {
             width: 100%; 
             height: 240px; 
@@ -70,15 +70,40 @@
             overflow: hidden; 
             border: 1px solid rgba(255, 51, 133, 0.4); 
             box-shadow: 0 0 15px rgba(255, 51, 133, 0.2); 
-            margin-bottom: 12px; 
             background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
         }
-        /* Dikey fotoğrafta yüzleri ortalamak için pozisyon ayarlandı */
         .photo-frame img { 
             width: 100%; 
             height: 100%; 
             object-fit: cover; 
-            object-position: center 20%; 
+            object-position: center 20%;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* Galeri Noktaları Tasarımı */
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255, 51, 133, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .dot.active {
+            background-color: #ff3385;
+            box-shadow: 0 0 8px #ff3385;
+            transform: scale(1.2);
         }
 
         /* CANLI AŞK SAYAÇ ALANI */
@@ -86,7 +111,7 @@
             background: rgba(255, 51, 133, 0.1); border: 1px solid rgba(255, 51, 133, 0.3); border-radius: 10px; padding: 8px; font-family: monospace; font-size: 12px; color: #ff3385; text-shadow: 0 0 5px rgba(255, 51, 133, 0.5); margin-bottom: 12px; font-weight: bold; line-height: 1.4;
         }
 
-        /* Canlı Akışlı ve Sabit Yükseklikli Yazı Kutusu */
+        /* Canlı Akışlı Yazı Kutusu */
         .message-box {
             font-size: 13px; line-height: 1.5; color: #e5daf0; background: rgba(0, 0, 0, 0.6); padding: 12px; border-radius: 12px; border-left: 3px solid #ff3385; text-align: left; height: 130px; overflow-y: auto; font-family: monospace; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); margin-bottom: 12px;
         }
@@ -130,8 +155,14 @@
         <div id="birthday-card" class="card">
             <h1>EBEDİ BAĞLANTI KURULDU</h1>
             
-            <div class="photo-frame">
-                <img src="fotograf1.jpg" alt="Sevgilim">
+            <div class="photo-frame" onclick="sonrakiResim(event)">
+                <img id="galeri-resim" src="fotograf1.jpg" alt="Sevgilim">
+            </div>
+            
+            <div class="gallery-dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
 
             <div class="love-counter" id="live-counter">Bağlantı Süresi Hesaplanıyor...</div>
@@ -148,6 +179,10 @@
         const sevgiliOlunanTarih = new Date("2026-04-07T00:00:00");
 
         const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
+
+        // Galeri Resim Listesi ve Sayaç Tanımlamaları
+        const resimler = ["fotograf1.jpg", "fotograf2.jpg", "fotograf3.jpg"];
+        let aktifResimIndex = 0;
 
         const music = document.getElementById('bg-music');
         const countdownEl = document.getElementById('countdown');
@@ -169,82 +204,5 @@
                 } else {
                     clearInterval(timer);
                     countdownEl.remove();
-                    envelopeArea.style.display = 'block';
-                }
-            }, 1000);
-        }
-
-        function openLetter() {
-            envelopeArea.style.display = 'none';
-            cardEl.classList.add('active');
-            typeWriter(loveLetter, 0); 
-            
-            updateLoveCounter();
-            setInterval(updateLoveCounter, 1000);
-        }
-
-        // Akıllı Yazı Yazma Fonksiyonu - Otomatik Aşağı Kaydırır
-        function typeWriter(text, i) {
-            if (i < text.length) {
-                const box = document.getElementById("typewriter-text");
-                box.innerHTML += text.charAt(i);
-                
-                // Her harf eklendiğinde kutuyu otomatik olarak en alta odaklar
-                box.scrollTop = box.scrollHeight;
-                
-                setTimeout(() => typeWriter(text, i + 1), 45); 
-            }
-        }
-
-        function updateLoveCounter() {
-            const simdi = new Date();
-            const fark = simdi - sevgiliOlunanTarih;
-
-            const saniye = Math.floor((fark / 1000) % 60);
-            const dakika = Math.floor((fark / 1000 / 60) % 60);
-            const saat = Math.floor((fark / (1000 * 60 * 60)) % 24);
-            const guntoplam = Math.floor(fark / (1000 * 60 * 60 * 24));
-            
-            const yil = Math.floor(guntoplam / 365);
-            const kalanGun = guntoplam % 365;
-
-            document.getElementById("live-counter").innerHTML = 
-                `💝 Birlikteliğimiz: ${yil} Yıl, ${kalanGun} Gün, ${saat} Saat, ${dakika} Dakika, ${saniye} Saniye`;
-        }
-
-        function spawnHeart(e) {
-            const heart = document.createElement("div");
-            heart.className = "click-heart";
-            heart.innerHTML = "❤️";
-            heart.style.left = e.clientX + "px";
-            heart.style.top = e.clientY + "px";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 800);
-        }
-
-        const canvas = document.getElementById('matrix-bg');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const alphabet = '0123456789❤️❤️🎉✨'.split('');
-        const fontSize = 16; const columns = canvas.width / fontSize;
-        const rainDrops = Array(Math.floor(columns)).fill(1);
-
-        const draw = () => {
-            ctx.fillStyle = 'rgba(13, 2, 19, 0.06)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ff3385'; ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < rainDrops.length; i++) {
-                const text = alphabet[Math.floor(Math.random() * alphabet.length)];
-                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) rainDrops[i] = 0;
-                rainDrops[i]++;
-            }
-        };
-        setInterval(draw, 33);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
-</body>
-</html>
+                    envelopeArea.style.display = 'block
+                        
