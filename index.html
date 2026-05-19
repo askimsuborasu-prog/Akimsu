@@ -202,7 +202,8 @@
     </div>
 
     <script>
-        const sevgiliOlunanTarih = new Date("2026-04-07T00:00:00");
+        // Tarayıcı uyumlu güvenli tarih objesi oluşturma
+        const sevgiliOlunanTarih = new Date(2026, 3, 7, 0, 0, 0); // 7 Nisan 2026 (Aylar 0'dan başlar, Ocak=0, Nisan=3)
         const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
 
         const resimler = ["fotograf1.jpg", "fotograf2.jpg", "fotograf3.jpg"];
@@ -216,13 +217,11 @@
         const cardEl = document.getElementById('birthday-card');
 
         function startSurprise() {
-            // Butonu anında gizle ve geri sayımı başlat (Müzik engeline takılmaz)
             document.getElementById('start-btn').style.display = 'none';
             countdownEl.style.display = 'block';
             
-            // Müziği arka planda hata vermeyecek şekilde esnek oynatmayı dene
             if (music) {
-                music.play().catch(e => console.log("Müzik tarayıcı tarafından beklemeye alındı."));
+                music.play().catch(e => console.log("Müzik arka planda bekletiliyor."));
             }
             
             let count = 3;
@@ -234,7 +233,7 @@
                     countdownEl.innerText = count;
                 } else {
                     clearInterval(timer);
-                    countdownEl.style.display = 'none';
+                    countdownEl.style.display = 'none'; // remove() yerine güvenli gizleme
                     envelopeArea.style.display = 'block';
                 }
             }, 1000);
@@ -243,7 +242,7 @@
         function showPasswordPanel() {
             envelopeArea.style.display = 'none';
             passPanel.style.display = 'block';
-            setTimeout(() => { document.getElementById("password-input").focus(); }, 100);
+            setTimeout(() => { document.getElementById("password-input").focus(); }, 120);
         }
 
         function checkPassword() {
@@ -254,8 +253,7 @@
                 error.style.color = "#00ffcc";
                 error.innerText = "ACCESS GRANTED // ERİŞİM ONAYLANDI...";
                 
-                // Artık kullanıcı sayfaya tıkladığı için müzik kesin olarak başlayabilir
-                if (music) music.play().catch(e => console.log("Müzik dosyası bulunamadı."));
+                if (music) music.play().catch(e => console.log("Müzik dosyası yüklenemedi."));
 
                 setTimeout(() => {
                     passPanel.style.display = 'none';
@@ -312,6 +310,11 @@
         function updateLoveCounter() {
             const simdi = new Date();
             const fark = simdi - sevgiliOlunanTarih;
+
+            if (isNaN(fark)) {
+                document.getElementById("live-counter").innerHTML = "💝 Birlikteliğimiz Sonsuz Bir Döngüde...";
+                return;
+            }
 
             const saniye = Math.floor((fark / 1000) % 60);
             const dakika = Math.floor((fark / 1000 / 60) % 60);
