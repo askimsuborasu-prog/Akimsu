@@ -216,11 +216,13 @@
         const cardEl = document.getElementById('birthday-card');
 
         function startSurprise() {
+            // Butonu anında gizle ve geri sayımı başlat (Müzik engeline takılmaz)
             document.getElementById('start-btn').style.display = 'none';
             countdownEl.style.display = 'block';
             
+            // Müziği arka planda hata vermeyecek şekilde esnek oynatmayı dene
             if (music) {
-                music.play().catch(e => console.log("Müzik beklemeye alındı."));
+                music.play().catch(e => console.log("Müzik tarayıcı tarafından beklemeye alındı."));
             }
             
             let count = 3;
@@ -241,7 +243,7 @@
         function showPasswordPanel() {
             envelopeArea.style.display = 'none';
             passPanel.style.display = 'block';
-            document.getElementById("password-input").focus();
+            setTimeout(() => { document.getElementById("password-input").focus(); }, 100);
         }
 
         function checkPassword() {
@@ -252,7 +254,8 @@
                 error.style.color = "#00ffcc";
                 error.innerText = "ACCESS GRANTED // ERİŞİM ONAYLANDI...";
                 
-                if (music) music.play().catch(e => {});
+                // Artık kullanıcı sayfaya tıkladığı için müzik kesin olarak başlayabilir
+                if (music) music.play().catch(e => console.log("Müzik dosyası bulunamadı."));
 
                 setTimeout(() => {
                     passPanel.style.display = 'none';
@@ -266,7 +269,6 @@
                 error.innerText = "ACCESS DENIED // HATALI KOD!";
                 document.getElementById("password-input").value = "";
                 
-                // Panel sarsıntı efekti
                 passPanel.style.animation = "none";
                 setTimeout(() => { passPanel.style.animation = "pulse 0.3s 2"; }, 10);
             }
@@ -301,7 +303,6 @@
                 box.scrollTop = box.scrollHeight;
                 setTimeout(() => typeWriter(text, i + 1), 45); 
             } else {
-                // Yazı bittiğinde Matrix yağmurunu yavaşça durdur ve havai fişekleri başlat
                 clearInterval(matrixInterval);
                 document.getElementById("fw-canvas").style.display = "block";
                 startFireworks();
@@ -354,5 +355,71 @@
         };
         matrixInterval = setInterval(draw, 33);
 
-        // SİBER HAVAİ F
-        
+        // SİBER HAVAİ FİŞEK MOTORU
+        const fwCanvas = document.getElementById('fw-canvas');
+        const fwCtx = fwCanvas.getContext('2d');
+        let particles = [];
+
+        function startFireworks() {
+            fwCanvas.width = window.innerWidth;
+            fwCanvas.height = window.innerHeight;
+            animateFireworks();
+            setInterval(() => {
+                createFirework(Math.random() * fwCanvas.width, Math.random() * (fwCanvas.height * 0.6));
+            }, 600);
+        }
+
+        function createFirework(x, y) {
+            const colors = ['#ff3385', '#ae20dd', '#00ffcc', '#ff0055', '#9d4edd'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    alpha: 1,
+                    color: color,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function animateFireworks() {
+            requestAnimationFrame(animateFireworks);
+            fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
+            
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.04; 
+                p.alpha -= 0.015;
+                
+                if (p.alpha <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+                
+                fwCtx.save();
+                fwCtx.globalAlpha = p.alpha;
+                fwCtx.fillStyle = p.color;
+                fwCtx.shadowBlur = 10;
+                fwCtx.shadowColor = p.color;
+                fwCtx.beginPath();
+                fwCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                fwCtx.fill();
+                fwCtx.restore();
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            if(fwCanvas.style.display === "block") {
+                fwCanvas.width = window.innerWidth;
+                fwCanvas.height = window.innerHeight;
+            }
+        });
+    </script>
+</body>
+</html>
