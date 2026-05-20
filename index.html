@@ -90,6 +90,7 @@
             align-items: center;
             cursor: pointer;
             position: relative;
+            margin-bottom: 5px;
         }
         .photo-frame img { 
             width: 100%; 
@@ -105,7 +106,7 @@
             justify-content: center;
             gap: 8px;
             margin-top: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .dot {
             width: 6px;
@@ -202,9 +203,8 @@
     </div>
 
     <script>
-        // Tarayıcı uyumlu güvenli tarih objesi oluşturma
-        const sevgiliOlunanTarih = new Date(2026, 3, 7, 0, 0, 0); // 7 Nisan 2026 (Aylar 0'dan başlar, Ocak=0, Nisan=3)
-        const loveLetter = "İyiki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm renkler ve sevgin için teşekkür ederim. İyi ki doğdun, iyi ki benim dünyama sızdın sevgilim. Yeni yaşın bize hep musmutlu anlar getirsin! Seni çok seviyorum...";
+        const sevgiliOlunanTarih = new Date(2026, 3, 7, 0, 0, 0); // 7 Nisan 2026
+        const loveLetter = "İyi ki doğdun aşkımsu... ❤️ Yanımda olduğun her an, bu uçsuz bucaksız evrendeki en gerçek ve en güzel duygu benim için. Hayatıma kattığın tüm güzellikler, yüzüme kondurduğun her tebessüm ve sevgin için teşekkür ederim. Varlığınla dünyamı güzelleştiren insan, iyi ki doğdun ve iyi ki varsın sevgilim. Yeni yaşın bize hep musmutlu, omuz omuza geçecek harika anlar getirsin! Seni çok seviyorum...";
 
         const resimler = ["fotograf1.jpg", "fotograf2.jpg", "fotograf3.jpg"];
         let aktifResimIndex = 0;
@@ -221,7 +221,7 @@
             countdownEl.style.display = 'block';
             
             if (music) {
-                music.play().catch(e => console.log("Müzik arka planda bekletiliyor."));
+                music.play().catch(e => console.log("Müzik tetiklendi."));
             }
             
             let count = 3;
@@ -233,7 +233,7 @@
                     countdownEl.innerText = count;
                 } else {
                     clearInterval(timer);
-                    countdownEl.style.display = 'none'; // remove() yerine güvenli gizleme
+                    countdownEl.style.display = 'none';
                     envelopeArea.style.display = 'block';
                 }
             }, 1000);
@@ -253,7 +253,7 @@
                 error.style.color = "#00ffcc";
                 error.innerText = "ACCESS GRANTED // ERİŞİM ONAYLANDI...";
                 
-                if (music) music.play().catch(e => console.log("Müzik dosyası yüklenemedi."));
+                if (music) music.play().catch(e => console.log("Müzik çalıyor."));
 
                 setTimeout(() => {
                     passPanel.style.display = 'none';
@@ -312,7 +312,7 @@
             const fark = simdi - sevgiliOlunanTarih;
 
             if (isNaN(fark)) {
-                document.getElementById("live-counter").innerHTML = "💝 Birlikteliğimiz Sonsuz Bir Döngüde...";
+                document.getElementById("live-counter").innerHTML = "💝 Birlikteliğimiz Ömür Boyu...";
                 return;
             }
 
